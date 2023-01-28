@@ -1,0 +1,27 @@
+<?php
+/** @var $entity Application\Entity\Translation */
+$entity = $this->entity;
+?>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-12">
+            <h1><?php echo $entity->getTranslationKey(); ?></h1>
+            <h2><?php echo $this->translate('Key'); ?></h2>
+            <p><?php echo $entity->getTranslationKey(); ?></p>
+            <h2><?php echo $this->translate('German'); ?></h2>
+            <p><?php echo $entity->getGerman(); ?></p>
+            <h2><?php echo $this->translate('English'); ?></h2>
+            <p><?php echo $entity->getEnglish(); ?></p>
+            <h2><?php echo $this->translate('Italian'); ?></h2>
+            <p><?php echo $entity->getItalian(); ?></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <form method="post">
+                <input type="hidden" name="delete" value="1" />
+                <input type="submit" value="Delete" class="btn btn-block btn-lg btn-danger"/>
+            </form>
+        </div>
+    </div>
+</div>

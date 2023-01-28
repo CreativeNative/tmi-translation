@@ -1,0 +1,99 @@
+<div class="container-fluid">
+    <div class="row g-3">
+        <div class="col-12">
+            <?php
+            $this->pageBreadcrumbs()->setItems([
+                $this->translate('Translation') => $this->url('translation')
+            ]);
+            echo $this->pageBreadcrumbs()->render();
+            ?>
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <a href="<?php echo $this->url('translation/create') ?>" class="btn btn-primary"><?php
+                        echo $this->translate('Create') ?></a>
+                </div>
+                <div>
+                    <form method="post">
+                        <button type="submit" class="btn btn-primary confirm" name="translation" value="all">
+                            <i class="fa fa-globe fa-2x"></i>
+                        </button>
+                        <button type="submit" class="btn btn-primary confirm" name="translation" value="german">
+                            <img class="flag" src="/resources/application/img/germany.png" width="16" height="16"
+                                 alt="<?php echo $this->translate('German') ?>">
+                        </button>
+                        <button type="submit" class="btn btn-primary confirm" name="translation" value="english">
+                            <img class="flag" src="/resources/application/img/usa.png" width="16" height="16"
+                                 alt="<?php echo $this->translate('English') ?>">
+                        </button>
+                        <button type="submit" class="btn btn-primary confirm" name="translation" value="italian">
+                            <img class="flag" src="/resources/application/img/italy.png" width="16" height="16"
+                                 alt="<?php echo $this->translate('Italian') ?>">
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <div class="col-12">
+            <?php
+            if (!empty($this->messages) && is_array($this->messages)) {
+                foreach ($this->messages as $message) {
+                    echo '<div class="alert ' . $message["class"] . ' " role="alert">' . $message['message'] . '</div>';
+                }
+            }
+            ?>
+            <div class="table-responsive">
+                <table id="data-table" width="100%" style="width:100%;" class="table table-striped">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th><?php echo $this->translate('Key') ?></th>
+                        <th><?php echo $this->translate('German') ?></th>
+                        <th><?php echo $this->translate('English') ?></th>
+                        <th><?php echo $this->translate('Italian') ?></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody id="item_list">
+                    <?php
+                    /** @var $translation Application\Entity\Translation */
+                    foreach ($this->translation as $translation) :
+                        ?>
+                        <tr>
+                            <td class="text-center">
+                                <a title="<?php echo $this->translate('Edit');
+                                ?>" href="<?php echo $this->url(
+                                    "translation/edit",
+                                    ["id" => $translation->getId()]
+                                ) ?>"><i class="fas fa-edit"></i></a>
+                            </td>
+                            <td><?php echo $translation->getTranslationKey() ?></td>
+                            <td><?php echo $translation->getGerman() ?></td>
+                            <td><?php echo $translation->getEnglish() ?></td>
+                            <td><?php echo $translation->getItalian() ?></td>
+                            <td class="text-center">
+                                <a class="btn btn-danger" title="<?php echo $this->translate('Edit');
+                                ?>" href="<?php echo $this->url(
+                                    "translation/delete",
+                                    ["id" => $translation->getId()]
+                                ) ?>"><i class="far fa-trash-alt"></i></a>
+                            </td>
+                        </tr>
+                    <?php endforeach; ?>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+<?php
+$this->headLink()->appendStylesheet('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css');
+if (!empty($this->layout()->cacheId)) {
+    $this->inlineScript()->appendFile('/js/admin-translation-index-' . $this->layout()->cacheId . '.js');
+} else {
+    $this->inlineScript()
+        ->appendFile('/node_modules/datatables.net/js/jquery.dataTables.min.js')
+        ->appendFile('/node_modules/datatables.net-bs4/js/dataTables.bootstrap4.min.js')
+        ->appendFile('/resources/admin/js/translation-index.js');
+}
+?>
+

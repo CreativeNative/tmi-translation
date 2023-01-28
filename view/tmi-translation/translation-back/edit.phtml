@@ -1,0 +1,91 @@
+<?php
+/** @var $entity Application\Entity\Translation */
+$entity = $this->entity;
+/** @var $form Laminas\Form\Form */
+$form->prepare();
+$form->setAttribute(
+    'action',
+    $this->url('translation/edit', ['id' => $entity->getId()])
+);
+echo $this->form()->openTag($form);
+?>
+<div class="container-fluid content">
+    <div class="row g-3">
+        <div class="col-12">
+            <?php
+            $this->pageBreadcrumbs()->setItems([
+                $this->translate('Translation') => $this->url('translation'),
+                $entity->getTranslationKey()    => $this->url('translation/edit', ['id' => $entity->getId()])
+            ]);
+            echo $this->pageBreadcrumbs()->render();
+            ?>
+        </div>
+        <div class="col-12">
+            <?php
+            echo $this->formRow($form->get('id'));
+
+            if (!empty($this->message) && is_array($this->message)) {
+                echo '<div class="alert ' . $this->message["class"] . ' " role="alert">';
+                echo $this->translate($this->message['message']);
+                echo '</div>';
+            }
+
+            if (!empty($form->getMessages()) && is_array($form->getMessages())) {
+                echo '<div class="alert alert-danger" role="alert">';
+                echo '<pre>' . print_r($form->getMessages(), true) . '</pre>';
+                echo '</div>';
+            }
+            ?>
+        </div>
+        <div class="col-12">
+            <?php
+            echo $this->formLabel($form->get('category'));
+            echo $this->formSelect($form->get('category'));
+            echo $this->formElementErrors($form->get('category'));
+            ?>
+        </div>
+        <div class="col-12">
+            <?php
+            echo $this->formLabel($form->get('translation_key'));
+            echo $this->formElement($form->get('translation_key'));
+            echo $this->formElementErrors($form->get('translation_key'));
+            ?>
+        </div>
+        <div class="col-12">
+            <?php echo $this->formLabel($form->get('german')); ?>
+            <div class="input-group">
+                <span id="germanLength" class="input-group-text"></span>
+                <?php echo $this->formElement($form->get('german')); ?>
+            </div>
+            <?php echo $this->formElementErrors($form->get('german')); ?>
+        </div>
+        <div class="col-12">
+            <?php echo $this->formLabel($form->get('english')); ?>
+            <div class="input-group">
+                <span id="englishLength" class="input-group-text"></span>
+                <?php echo $this->formElement($form->get('english')); ?>
+            </div>
+            <?php echo $this->formElementErrors($form->get('english')); ?>
+        </div>
+        <div class="col-12">
+            <?php echo $this->formLabel($form->get('italian')); ?>
+            <div class="input-group">
+                <span id="italianLength" class="input-group-text"></span>
+                <?php echo $this->formElement($form->get('italian')); ?>
+            </div>
+            <?php echo $this->formElementErrors($form->get('italian')); ?>
+        </div>
+        <div class="col-12">
+            <?php
+            echo $this->formElement($form->get('csrf'));
+            echo $this->formElementErrors($form->get('csrf'));
+            echo $this->formElement($form->get('submit'));
+            echo $this->formElementErrors($form->get('submit'));
+            ?>
+        </div>
+    </div>
+</div>
+<?php
+echo $this->form()->closeTag();
+$this->inlineScript()->appendFile('/resources/admin/js/translation-edit.js');
+?>
