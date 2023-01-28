@@ -15,7 +15,7 @@ use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use Gedmo\Translatable\Query\TreeWalker\TranslationWalker;
 use Gedmo\Translatable\TranslatableListener;
 
-class TranslatableRepository extends TranslationRepository
+class TranslationEntityRepository extends TranslationRepository
 {
     private string $defaultLocale = 'de_DE';
 
