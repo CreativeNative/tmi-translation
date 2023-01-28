@@ -15,6 +15,8 @@ class TranslationBackControllerFactory implements FactoryInterface
 {
     /**
      * @param string $requestedName
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): Controller
     {

@@ -7,7 +7,7 @@ namespace TmiTranslation\Controller;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use DoctrineModule\Validator\NoObjectExists;
 use Laminas\Config\Writer\PhpArray;
 use Laminas\Http\PhpEnvironment\Request;
@@ -15,12 +15,11 @@ use Laminas\Http\Response;
 use Laminas\I18n\Translator\Translator;
 use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
-use TmiTranslation\Entity\Translation;
+use TmiTranslation\Entity\TranslationEntity;
 use TmiTranslation\Form\TranslationForm;
 
 use function array_merge_recursive;
 use function getcwd;
-use function is_int;
 use function sprintf;
 
 class TranslationBackController extends AbstractActionController
@@ -43,8 +42,8 @@ class TranslationBackController extends AbstractActionController
 
     public function indexAction(): ViewModel
     {
-        /** @var \TmiTranslation\Repository\Translation $repository */
-        $repository = $this->entityManager->getRepository(Translation::class);
+        /** @var \TmiTranslation\Repository\TranslationRepository $repository */
+        $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findAll();
 
@@ -74,7 +73,7 @@ class TranslationBackController extends AbstractActionController
                 $english = [];
                 $italian = [];
                 foreach ($entity as $translation) {
-                    /** @var Translation $translation */
+                    /** @var TranslationEntity $translation */
                     $german[$translation->getTranslationKey()]  = $translation->getGerman();
                     $english[$translation->getTranslationKey()] = $translation->getEnglish();
                     $italian[$translation->getTranslationKey()] = $translation->getItalian();
@@ -98,7 +97,7 @@ class TranslationBackController extends AbstractActionController
             if (isset($data['translation']) && $data['translation'] === 'german') {
                 $german = [];
                 foreach ($entity as $translation) {
-                    /** @var Translation $translation */
+                    /** @var TranslationEntity $translation */
                     $german[$translation->getTranslationKey()] = $translation->getGerman();
                 }
 
@@ -114,7 +113,7 @@ class TranslationBackController extends AbstractActionController
             if (isset($data['translation']) && $data['translation'] === 'english') {
                 $english = [];
                 foreach ($entity as $translation) {
-                    /** @var Translation $translation */
+                    /** @var TranslationEntity $translation */
                     $english[$translation->getTranslationKey()] = $translation->getEnglish();
                 }
 
@@ -130,7 +129,7 @@ class TranslationBackController extends AbstractActionController
             if (isset($data['translation']) && $data['translation'] === 'italian') {
                 $italian = [];
                 foreach ($entity as $translation) {
-                    /** @var Translation $translation */
+                    /** @var TranslationEntity $translation */
                     $italian[$translation->getTranslationKey()] = $translation->getItalian();
                 }
 
@@ -153,11 +152,11 @@ class TranslationBackController extends AbstractActionController
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function createAction()
+    public function createAction(): Response|ViewModel
     {
         $form = $this->translationForm;
 
-        $entity = new Translation();
+        $entity = new TranslationEntity();
 
         $form->bind($entity);
 
@@ -172,7 +171,7 @@ class TranslationBackController extends AbstractActionController
             $form->setData($data);
 
             $validator = new NoObjectExists([
-                'object_repository' => $this->entityManager->getRepository(Translation::class),
+                'object_repository' => $this->entityManager->getRepository(TranslationEntity::class),
                 'fields'            => ['translation_key'],
                 'messages'          => [
                     NoObjectExists::ERROR_OBJECT_FOUND => "This input already exists.",
@@ -184,7 +183,7 @@ class TranslationBackController extends AbstractActionController
             }
 
             if ($form->isValid()) {
-                /** @var Translation $validatedEntity */
+                /** @var TranslationEntity $validatedEntity */
                 $validatedEntity = $form->getData();
 
                 $this->entityManager->persist($validatedEntity);
@@ -213,16 +212,16 @@ class TranslationBackController extends AbstractActionController
      * @throws OptimisticLockException
      * @throws NonUniqueResultException
      */
-    public function editAction()
+    public function editAction(): Response|ViewModel
     {
         $id = (int) $this->params()->fromRoute('id');
 
-        if (! is_int($id) || $id === 0) {
+        if ($id === 0) {
             return $this->redirect()->toRoute('translation');
         }
 
-        /** @var \TmiTranslation\Repository\Translation $repository */
-        $repository = $this->entityManager->getRepository(Translation::class);
+        /** @var \TmiTranslation\Repository\TranslationRepository $repository */
+        $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findById($id);
 
@@ -248,7 +247,7 @@ class TranslationBackController extends AbstractActionController
             $form->setData($data);
 
             if ($form->isValid()) {
-                /** @var Translation $validatedEntity */
+                /** @var TranslationEntity $validatedEntity */
                 $validatedEntity = $form->getData();
 
                 $this->entityManager->persist($validatedEntity);
@@ -279,7 +278,7 @@ class TranslationBackController extends AbstractActionController
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function deleteAction()
+    public function deleteAction(): Response|ViewModel
     {
         $id = (int) $this->params()->fromRoute('id');
 
@@ -287,8 +286,8 @@ class TranslationBackController extends AbstractActionController
             return $this->redirect()->toRoute('translation');
         }
 
-        /** @var \TmiTranslation\Repository\Translation $repository */
-        $repository = $this->entityManager->getRepository(Translation::class);
+        /** @var \TmiTranslation\Repository\TranslationRepository $repository */
+        $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findById($id);
 
