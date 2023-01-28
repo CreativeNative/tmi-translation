@@ -11,7 +11,7 @@ use Laminas\Form\Element;
 use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 use Laminas\Validator;
-use TmiTranslation\Entity\Translation;
+use TmiTranslation\Entity\TranslationEntity;
 use TmiTranslation\Enum\TranslationCategoryInterface;
 
 class TranslationForm extends Form
@@ -21,7 +21,7 @@ class TranslationForm extends Form
         parent::__construct('translation');
 
         $this->setHydrator(new DoctrineHydrator($entityManager))
-            ->setObject(new Translation());
+            ->setObject(new TranslationEntity());
 
         $this->setAttribute('method', 'post');
 
