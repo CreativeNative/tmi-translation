@@ -172,14 +172,14 @@ class TranslationBackController extends AbstractActionController
 
             $validator = new NoObjectExists([
                 'object_repository' => $this->entityManager->getRepository(TranslationEntity::class),
-                'fields'            => ['translation_key'],
+                'fields'            => ['translationKey'],
                 'messages'          => [
                     NoObjectExists::ERROR_OBJECT_FOUND => "This input already exists.",
                 ],
             ]);
 
             if ($form->getInputFilter() !== null) {
-                $form->getInputFilter()->get('translation_key')->getValidatorChain()->attach($validator);
+                $form->getInputFilter()->get('translationKey')->getValidatorChain()->attach($validator);
             }
 
             if ($form->isValid()) {

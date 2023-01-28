@@ -42,7 +42,7 @@ class TranslationForm extends Form
         $this->add(
             [
                 'type'       => Element\Text::class,
-                'name'       => 'translation_key',
+                'name'       => 'translationKey',
                 'options'    => [
                     'label' => 'Translation Key',
                 ],
@@ -151,7 +151,7 @@ class TranslationForm extends Form
 
         $inputFilter->add(
             [
-                'name'       => 'translation_key',
+                'name'       => 'translationKey',
                 'required'   => true,
                 'filters'    => [
                     ['name' => Filter\StringTrim::class],

@@ -1,12 +1,9 @@
 <?php
-/** @var $entity Application\Entity\Translation */
+/** @var $entity TmiTranslation\Entity\TranslationEntity */
 $entity = $this->entity;
 /** @var $form Laminas\Form\Form */
 $form->prepare();
-$form->setAttribute(
-    'action',
-    $this->url('translation/edit', ['id' => $entity->getId()])
-);
+$form->setAttribute('action', $this->url('translation/edit', ['id' => $entity->getId()]));
 echo $this->form()->openTag($form);
 ?>
 <div class="container-fluid content">
@@ -21,8 +18,7 @@ echo $this->form()->openTag($form);
             ?>
         </div>
         <div class="col-12">
-            <?php
-            echo $this->formRow($form->get('id'));
+            <?php echo $this->formRow($form->get('id'));
 
             if (!empty($this->message) && is_array($this->message)) {
                 echo '<div class="alert ' . $this->message["class"] . ' " role="alert">';
@@ -46,13 +42,14 @@ echo $this->form()->openTag($form);
         </div>
         <div class="col-12">
             <?php
-            echo $this->formLabel($form->get('translation_key'));
-            echo $this->formElement($form->get('translation_key'));
-            echo $this->formElementErrors($form->get('translation_key'));
+            echo $this->formLabel($form->get('translationKey'));
+            echo $this->formElement($form->get('translationKey'));
+            echo $this->formElementErrors($form->get('translationKey'));
             ?>
         </div>
         <div class="col-12">
-            <?php echo $this->formLabel($form->get('german')); ?>
+            <?php
+            echo $this->formLabel($form->get('german')); ?>
             <div class="input-group">
                 <span id="germanLength" class="input-group-text"></span>
                 <?php echo $this->formElement($form->get('german')); ?>
@@ -60,7 +57,8 @@ echo $this->form()->openTag($form);
             <?php echo $this->formElementErrors($form->get('german')); ?>
         </div>
         <div class="col-12">
-            <?php echo $this->formLabel($form->get('english')); ?>
+            <?php
+            echo $this->formLabel($form->get('english')); ?>
             <div class="input-group">
                 <span id="englishLength" class="input-group-text"></span>
                 <?php echo $this->formElement($form->get('english')); ?>
@@ -68,7 +66,8 @@ echo $this->form()->openTag($form);
             <?php echo $this->formElementErrors($form->get('english')); ?>
         </div>
         <div class="col-12">
-            <?php echo $this->formLabel($form->get('italian')); ?>
+            <?php
+            echo $this->formLabel($form->get('italian')); ?>
             <div class="input-group">
                 <span id="italianLength" class="input-group-text"></span>
                 <?php echo $this->formElement($form->get('italian')); ?>
