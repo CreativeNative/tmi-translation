@@ -7,7 +7,7 @@ namespace TmiTranslation\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Entity(repositoryClass="TmiTranslation\Repository\Translation")
+ * @ORM\Entity(repositoryClass="TmiTranslation\Repository\TranslationRepository")
  * @ORM\Table(
  *     name="translation",
  *     options={
@@ -17,7 +17,7 @@ use Doctrine\ORM\Mapping as ORM;
  *      },
  * )
  */
-class Translation
+class TranslationEntity
 {
     /**
      * @ORM\Id

@@ -7,13 +7,13 @@ namespace TmiTranslation\Repository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\NonUniqueResultException;
-use TmiTranslation\Entity\Translation as TranslationEntity;
+use TmiTranslation\Entity\TranslationEntity;
 use TmiTranslation\Enum\TranslationCategoryInterface;
 
 /**
- * @extends EntityRepository<Translation>
+ * @extends EntityRepository<TranslationEntity>
  */
-class Translation extends EntityRepository
+class TranslationRepository extends EntityRepository
 {
     /**
      * @return array<array-key, object>
