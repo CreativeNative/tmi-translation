@@ -8,6 +8,8 @@ use Doctrine\ORM\EntityManager;
 use Interop\Container\ContainerInterface;
 use Laminas\I18n\Translator\Translator;
 use Laminas\ServiceManager\Factory\FactoryInterface;
+use Psr\Container\ContainerExceptionInterface;
+use Psr\Container\NotFoundExceptionInterface;
 use TmiTranslation\Controller\TranslationBackController as Controller;
 use TmiTranslation\Form\TranslationForm;
 
@@ -15,8 +17,8 @@ class TranslationBackControllerFactory implements FactoryInterface
 {
     /**
      * @param string $requestedName
-     * @throws \Psr\Container\ContainerExceptionInterface
-     * @throws \Psr\Container\NotFoundExceptionInterface
+     * @throws ContainerExceptionInterface
+     * @throws NotFoundExceptionInterface
      */
     public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): Controller
     {

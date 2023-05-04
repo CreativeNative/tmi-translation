@@ -2,28 +2,11 @@
 
 namespace TmiTranslation;
 
-use Doctrine\ORM\Mapping\Driver\AnnotationDriver;
 use Laminas\Router\Http\Literal;
 use Laminas\Router\Http\Segment;
 use TmiTranslation\Controller\TranslationBackController;
 
 return [
-    'doctrine'     => [
-        'driver' => [
-            'tmi_translation' => [
-                'class' => AnnotationDriver::class,
-                'cache' => 'apcu_tmi',
-                'paths' => [
-                    __DIR__ . '/../src/Entity'
-                ]
-            ],
-            'orm_default'     => [
-                'drivers' => [
-                    'TmiTranslation\Entity' => 'tmi_translation',
-                ]
-            ]
-        ]
-    ],
     'controllers'  => [
         'factories' => [
             TranslationBackController::class => Controller\Factory\TranslationBackControllerFactory::class,

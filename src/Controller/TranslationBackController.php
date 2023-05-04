@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace TmiTranslation\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
-use Doctrine\ORM\Exception\ORMException;
 use DoctrineModule\Validator\NoObjectExists;
 use Laminas\Config\Writer\PhpArray;
 use Laminas\Http\PhpEnvironment\Request;
@@ -17,6 +17,7 @@ use Laminas\Mvc\Controller\AbstractActionController;
 use Laminas\View\Model\ViewModel;
 use TmiTranslation\Entity\TranslationEntity;
 use TmiTranslation\Form\TranslationForm;
+use TmiTranslation\Repository\TranslationRepository;
 
 use function array_merge_recursive;
 use function getcwd;
@@ -42,7 +43,7 @@ class TranslationBackController extends AbstractActionController
 
     public function indexAction(): ViewModel
     {
-        /** @var \TmiTranslation\Repository\TranslationRepository $repository */
+        /** @var TranslationRepository $repository */
         $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findAll();
@@ -105,7 +106,7 @@ class TranslationBackController extends AbstractActionController
 
                 $messages[] = [
                     'message' => '<img class="flag" src="/resources/application/img/germany.png" width="16" 
-                                        height="16" alt="german"> Deutsche Übersetzung wurde erstellt!',
+                                       height="16" alt="german"> Deutsche Übersetzung wurde erstellt!',
                     'class'   => 'alert-success',
                 ];
             }
@@ -121,7 +122,7 @@ class TranslationBackController extends AbstractActionController
 
                 $messages[] = [
                     'message' => '<img class="flag" src="/resources/application/img/usa.png" width="16" 
-                                        height="16" alt="english"> Englische Übersetzung wurde erstellt!',
+                                       height="16" alt="english"> Englische Übersetzung wurde erstellt!',
                     'class'   => 'alert-success',
                 ];
             }
@@ -136,9 +137,8 @@ class TranslationBackController extends AbstractActionController
                 $writer->toFile(getcwd() . '/data/language/it_IT.php', $italian);
 
                 $messages[] = [
-                    'message' => '<img class="flag" src="/resources/application/img/italy.png" 
-                    width="16" 
-                                        height="16" alt="italian"> Italienische Übersetzung wurde erstellt!',
+                    'message' => '<img class="flag" src="/resources/application/img/italy.png"  width="16"
+                                       height="16" alt="italian"> Italienische Übersetzung wurde erstellt!',
                     'class'   => 'alert-success',
                 ];
             }
@@ -148,7 +148,6 @@ class TranslationBackController extends AbstractActionController
     }
 
     /**
-     * @return Response|ViewModel
      * @throws ORMException
      * @throws OptimisticLockException
      */
@@ -207,7 +206,6 @@ class TranslationBackController extends AbstractActionController
     }
 
     /**
-     * @return Response|ViewModel
      * @throws ORMException
      * @throws OptimisticLockException
      * @throws NonUniqueResultException
@@ -220,7 +218,7 @@ class TranslationBackController extends AbstractActionController
             return $this->redirect()->toRoute('translation');
         }
 
-        /** @var \TmiTranslation\Repository\TranslationRepository $repository */
+        /** @var TranslationRepository $repository */
         $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findById($id);
@@ -273,7 +271,6 @@ class TranslationBackController extends AbstractActionController
     }
 
     /**
-     * @return Response|ViewModel
      * @throws NonUniqueResultException
      * @throws ORMException
      * @throws OptimisticLockException
@@ -286,7 +283,7 @@ class TranslationBackController extends AbstractActionController
             return $this->redirect()->toRoute('translation');
         }
 
-        /** @var \TmiTranslation\Repository\TranslationRepository $repository */
+        /** @var TranslationRepository $repository */
         $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findById($id);
