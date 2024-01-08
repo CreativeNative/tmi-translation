@@ -35,7 +35,7 @@
         </div>
         <div class="col-12">
             <?php
-            if (!empty($this->messages) && is_array($this->messages)) {
+            if (! empty($this->messages) && is_array($this->messages)) {
                 foreach ($this->messages as $message) {
                     echo '<div class="alert ' . $message["class"] . ' " role="alert">' . $message['message'] . '</div>';
                 }
@@ -87,7 +87,7 @@
 </div>
 <?php
 $this->headLink()->appendStylesheet('/node_modules/datatables.net-bs4/css/dataTables.bootstrap4.css');
-if (!empty($this->layout()->cacheId)) {
+if (! empty($this->layout()->cacheId)) {
     $this->inlineScript()->appendFile('/js/admin-translation-index-' . $this->layout()->cacheId . '.js');
 } else {
     $this->inlineScript()
