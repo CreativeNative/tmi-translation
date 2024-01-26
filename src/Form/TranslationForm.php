@@ -13,6 +13,7 @@ use Laminas\InputFilter\InputFilter;
 use Laminas\Validator;
 use TmiTranslation\Entity\TranslationEntity;
 use TmiTranslation\Enum\TranslationCategoryInterface;
+use TmiTranslation\Filter\MinifyHtml;
 
 class TranslationForm extends Form
 {
@@ -175,8 +176,7 @@ class TranslationForm extends Form
                 'name'       => 'german',
                 'required'   => true,
                 'filters'    => [
-                    ['name' => Filter\StringTrim::class],
-                    ['name' => Filter\StripNewlines::class],
+                    ['name' => MinifyHtml::class],
                 ],
                 'validators' => [
                     ['name' => Validator\NotEmpty::class],
@@ -189,8 +189,7 @@ class TranslationForm extends Form
                 'name'       => 'english',
                 'required'   => true,
                 'filters'    => [
-                    ['name' => Filter\StringTrim::class],
-                    ['name' => Filter\StripNewlines::class],
+                    ['name' => MinifyHtml::class],
                 ],
                 'validators' => [
                     ['name' => Validator\NotEmpty::class],
@@ -203,8 +202,7 @@ class TranslationForm extends Form
                 'name'       => 'italian',
                 'required'   => true,
                 'filters'    => [
-                    ['name' => Filter\StringTrim::class],
-                    ['name' => Filter\StripNewlines::class],
+                    ['name' => MinifyHtml::class],
                 ],
                 'validators' => [
                     ['name' => Validator\NotEmpty::class],

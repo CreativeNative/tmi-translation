@@ -17,20 +17,21 @@
     "php": "~8.0.0 || ~8.1.0 || ~8.2.0",
     "laminas/laminas-i18n": "^2.22.1",
     "laminas/laminas-mvc-i18n": "^1.7.0",
-    "doctrine/doctrine-orm-module": "^5.3.0|^6.0.1",
+    "doctrine/doctrine-orm-module": "^5.3.0|^6.1.0",
     "gedmo/doctrine-extensions": "^v3.14.0",
+    "voku/html-min": "^4.5.0",
     "ext-intl": "*"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest",
-    "phpunit/phpunit": "^9.6.15",
-    "squizlabs/php_codesniffer": "^3.8.0",
-    "friendsofphp/php-cs-fixer": "^3.46.0",
+    "phpunit/phpunit": "^9.6.16",
+    "squizlabs/php_codesniffer": "^3.8.1",
+    "friendsofphp/php-cs-fixer": "^3.48.0",
     "phpmd/phpmd": "^2.15.0",
-    "vimeo/psalm": "^5.18.0",
+    "vimeo/psalm": "^5.20.0",
     "laminas/laminas-coding-standard": "^2.6.0",
     "psalm/plugin-phpunit": "^0.18.4",
-    "phpstan/phpstan": "^1.10.55"
+    "phpstan/phpstan": "^1.10.57"
   },
   "autoload": {
     "psr-4": {
