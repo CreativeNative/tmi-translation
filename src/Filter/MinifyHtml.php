@@ -9,6 +9,8 @@ class MinifyHtml implements FilterInterface
 {
     public function filter($value)
     {
-        return (new HtmlMin())->minify($value);
+        $htmlMin = new HtmlMin();
+        $htmlMin->doRemoveOmittedQuotes(false);
+        return $htmlMin->minify($value);
     }
 }
