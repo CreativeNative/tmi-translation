@@ -11,6 +11,7 @@ class MinifyHtml implements FilterInterface
     {
         $htmlMin = new HtmlMin();
         $htmlMin->doRemoveOmittedQuotes(false);
+        $htmlMin->doRemoveOmittedHtmlTags(false);
         return $htmlMin->minify($value);
     }
 }
