@@ -12,7 +12,7 @@ return [
         'driver' => [
             'tmi_translation' => [
                 'class' => AnnotationDriver::class,
-                'cache' => 'apcu',
+                'cache' => 'filesystem',
                 'paths' => [
                     __DIR__ . '/../src/Entity'
                 ]
