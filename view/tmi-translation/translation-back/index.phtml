@@ -15,18 +15,19 @@
                 <div>
                     <form method="post">
                         <button type="submit" class="btn btn-primary confirm" name="translation" value="all">
-                            <i class="fa fa-globe fa-2x"></i>
+                            <img width="20" height="20" src="/resources/application/img/svg/icons/nav/globe.svg" alt="<?php
+                            echo $this->translate('Create') ?>" />
                         </button>
                         <button type="submit" class="btn btn-primary confirm" name="translation" value="german">
-                            <img class="flag" src="/resources/application/img/germany.png" width="16" height="16"
+                            <img src="/resources/application/img/germany.png" width="16" height="16"
                                  alt="<?php echo $this->translate('German') ?>">
                         </button>
                         <button type="submit" class="btn btn-primary confirm" name="translation" value="english">
-                            <img class="flag" src="/resources/application/img/usa.png" width="16" height="16"
+                            <img src="/resources/application/img/usa.png" width="16" height="16"
                                  alt="<?php echo $this->translate('English') ?>">
                         </button>
                         <button type="submit" class="btn btn-primary confirm" name="translation" value="italian">
-                            <img class="flag" src="/resources/application/img/italy.png" width="16" height="16"
+                            <img src="/resources/application/img/italy.png" width="16" height="16"
                                  alt="<?php echo $this->translate('Italian') ?>">
                         </button>
                     </form>
@@ -60,22 +61,20 @@
                         ?>
                         <tr>
                             <td class="text-center">
-                                <a title="<?php echo $this->translate('Edit');
-                                ?>" href="<?php echo $this->url(
-                                    "translation/edit",
-                                    ["id" => $translation->getId()]
-                                ) ?>"><i class="fas fa-edit"></i></a>
+                                <a class="btn btn-primary" title="<?php echo $this->translate('Edit'); ?>" href="<?php
+                                echo $this->url("translation/edit",["id" => $translation->getId()]); ?>">
+                                    <img width="20" height="20" src="/resources/application/img/svg/icons/nav/edit.svg" alt="<?php
+                                    echo $this->translate('Edit') ?>" /></a>
                             </td>
                             <td><?php echo $translation->getTranslationKey() ?></td>
                             <td><?php echo $translation->getGerman() ?></td>
                             <td><?php echo $translation->getEnglish() ?></td>
                             <td><?php echo $translation->getItalian() ?></td>
                             <td class="text-center">
-                                <a class="btn btn-danger" title="<?php echo $this->translate('Edit');
-                                ?>" href="<?php echo $this->url(
-                                    "translation/delete",
-                                    ["id" => $translation->getId()]
-                                ) ?>"><i class="far fa-trash-alt"></i></a>
+                                <a class="btn btn-danger" title="<?php echo $this->translate('Delete'); ?>" href="<?php
+                                echo $this->url("translation/delete", ["id" => $translation->getId()]) ?>">
+                                <img width="20" height="20" src="/resources/application/img/svg/icons/nav/trash.svg" alt="<?php
+                                echo $this->translate('Delete') ?>" /></a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
