@@ -20,7 +20,7 @@
     "laminas/laminas-filter": "^2.40.0",
     "laminas/laminas-form": "^3.21.0",
     "laminas/laminas-validator": "^2.64.2",
-    "doctrine/orm": "2.20.1",
+    "doctrine/orm": "^2.20.2",
     "doctrine/dbal": "^3.9.4",
     "doctrine/doctrine-module": "^6.1.1",
     "doctrine/doctrine-orm-module": "^6.1.0",
