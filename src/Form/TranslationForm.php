@@ -12,7 +12,7 @@ use Laminas\Form\Form;
 use Laminas\InputFilter\InputFilter;
 use Laminas\Validator;
 use TmiTranslation\Entity\TranslationEntity;
-use TmiTranslation\Enum\TranslationCategoryInterface;
+use TmiTranslation\Enum\TranslationCategory;
 use TmiTranslation\Filter\MinifyHtml;
 
 class TranslationForm extends Form
@@ -30,7 +30,7 @@ class TranslationForm extends Form
         $this->addInputFilter();
     }
 
-    protected function addElements(): void
+    private function addElements(): void
     {
         $this->add(
             [
@@ -97,20 +97,27 @@ class TranslationForm extends Form
 
         $this->add(
             [
+                'type'       => Element\Text::class,
+                'name'       => 'domain',
+                'options'    => [
+                    'label' => 'Text Domain',
+                ],
+                'attributes' => [
+                    'class' => 'form-control',
+                ],
+            ]
+        );
+
+        $this->add(
+            [
                 'type'       => Element\Select::class,
                 'name'       => 'category',
                 'options'    => [
                     'label'         => 'Category',
-                    'value_options' => [
-                        '0'                                              => 'Default',
-                        TranslationCategoryInterface::CATEGORY_NAME      => 'Category name',
-                        TranslationCategoryInterface::CATEGORY_SLUG      => 'Category slug',
-                        TranslationCategoryInterface::EQUIPMENT_NAME     => 'Equipment name',
-                        TranslationCategoryInterface::EQUIPMENT_SLUG     => 'Equipment slug',
-                        TranslationCategoryInterface::EQUIPMENT_CATEGORY => 'Equipment category',
-                        TranslationCategoryInterface::FAQ_CATEGORY_NAME  => 'FAQ category name',
-                        TranslationCategoryInterface::FAQ_CATEGORY_SLUG  => 'FAQ category slug',
-                    ],
+                    'value_options' => array_map(
+                        static fn($category) => $category,
+                        TranslationCategory::getCategories()
+                    ),
                 ],
                 'attributes' => [
                     'class' => 'form-control',
@@ -146,7 +153,7 @@ class TranslationForm extends Form
         );
     }
 
-    public function addInputFilter(): void
+    private function addInputFilter(): void
     {
         $inputFilter = new InputFilter();
 
@@ -206,6 +213,33 @@ class TranslationForm extends Form
                 ],
                 'validators' => [
                     ['name' => Validator\NotEmpty::class],
+                ],
+            ]
+        );
+
+        $inputFilter->add(
+            [
+                'name'       => 'domain',
+                'filters'    => [
+                    ['name' => Filter\StringTrim::class],
+                    ['name' => Filter\StripTags::class],
+                    ['name' => Filter\StripNewlines::class],
+                    ['name' => Filter\StringToLower::class],
+                ],
+                'validators' => [
+                    [
+                        'name'    => Validator\Regex::class,
+                        'options' => [
+                            'pattern' => '/^[a-z]+$/',
+                        ],
+                    ],
+                    [
+                        'name'    => Validator\StringLength::class,
+                        'options' => [
+                            'min' => 2,
+                            'max' => 50,
+                        ],
+                    ],
                 ],
             ]
         );

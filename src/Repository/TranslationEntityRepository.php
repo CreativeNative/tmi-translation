@@ -14,8 +14,9 @@ use DoctrineORMModule\Paginator\Adapter\DoctrinePaginator;
 use Gedmo\Translatable\Entity\Repository\TranslationRepository;
 use Gedmo\Translatable\Query\TreeWalker\TranslationWalker;
 use Gedmo\Translatable\TranslatableListener;
+use TmiTranslation\Entity\TranslationEntity;
 
-class TranslationEntityRepository extends TranslationRepository
+final class TranslationEntityRepository extends TranslationRepository
 {
     private string $defaultLocale = 'de_DE';
 
@@ -32,16 +33,15 @@ class TranslationEntityRepository extends TranslationRepository
     /**
      * Returns translated single result for given locale
      *
-     * @return mixed
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
     public function getSingleResult(
         QueryBuilder $queryBuilder,
-        ?string $locale = null,
-        ?string $cacheName = null,
+        string|null $locale = null,
+        string|null $cacheName = null,
         string|int|null $hydrationMode = null
-    ) {
+    ): mixed {
         $translatedQuery = $this->getTranslatedQuery($queryBuilder, $locale);
 
         if ($cacheName !== null) {
@@ -54,15 +54,14 @@ class TranslationEntityRepository extends TranslationRepository
     /**
      * Returns translated one (or null if not found) result for given locale
      *
-     * @return mixed
      * @throws NonUniqueResultException
      */
     public function getOneOrNullResult(
         QueryBuilder $queryBuilder,
-        ?string $locale = null,
-        ?string $cacheName = null,
+        string|null $locale = null,
+        string|null $cacheName = null,
         string|int|null $hydrationMode = AbstractQuery::HYDRATE_OBJECT
-    ) {
+    ): mixed {
         $translatedQuery = $this->getTranslatedQuery($queryBuilder, $locale);
 
         if ($cacheName !== null) {
@@ -72,15 +71,12 @@ class TranslationEntityRepository extends TranslationRepository
         return $translatedQuery->getOneOrNullResult($hydrationMode);
     }
 
-    /**
-     * @return mixed
-     */
     public function getResult(
         QueryBuilder $queryBuilder,
-        ?string $locale = null,
-        ?string $cacheName = null,
+        string|null $locale = null,
+        string|null $cacheName = null,
         string|int|null $hydrationMode = AbstractQuery::HYDRATE_OBJECT
-    ) {
+    ): mixed {
         $translatedQuery = $this->getTranslatedQuery($queryBuilder, $locale);
 
         if ($cacheName !== null) {
@@ -91,12 +87,12 @@ class TranslationEntityRepository extends TranslationRepository
     }
 
     /**
-     * @return array<array-key, object>
+     * @return array<int, TranslationEntity>
      */
     public function getArrayResult(
         QueryBuilder $queryBuilder,
-        ?string $locale = null,
-        ?string $cacheName = null
+        string|null $locale = null,
+        string|null $cacheName = null
     ): array {
         $translatedQuery = $this->getTranslatedQuery($queryBuilder, $locale);
 
@@ -108,14 +104,14 @@ class TranslationEntityRepository extends TranslationRepository
     }
 
     /**
-     * @return array<array-key, object>
+     * @return array<int, TranslationEntity>
      */
     public function getPaginatorArrayResult(
         QueryBuilder $queryBuilder,
-        ?string $locale = null,
-        ?string $cacheName = null,
+        string|null $locale = null,
+        string|null $cacheName = null,
         int $maxResults = 8
-    ): ?array {
+    ): array {
         $translatedQuery = $this->getTranslatedQuery($queryBuilder, $locale);
 
         if ($cacheName !== null) {
@@ -134,13 +130,12 @@ class TranslationEntityRepository extends TranslationRepository
 
     /**
      * Returns translated scalar result for given locale
-     *
-     * @return array<array-key, object>
+     * @return array<int, mixed>
      */
     public function getScalarResult(
         QueryBuilder $queryBuilder,
-        ?string $locale = null,
-        ?string $cacheName = null
+        string|null $locale = null,
+        string|null $cacheName = null
     ): array {
         $translatedQuery = $this->getTranslatedQuery($queryBuilder, $locale);
 
@@ -154,12 +149,14 @@ class TranslationEntityRepository extends TranslationRepository
     /**
      * Returns translated single scalar result for given locale
      *
-     * @return mixed
      * @throws NoResultException
      * @throws NonUniqueResultException
      */
-    public function getSingleScalarResult(QueryBuilder $queryBuilder, ?string $locale = null, ?string $cacheName = null)
-    {
+    public function getSingleScalarResult(
+        QueryBuilder $queryBuilder,
+        string|null $locale = null,
+        string|null $cacheName = null
+    ): mixed {
         $translatedQuery = $this->getTranslatedQuery($queryBuilder, $locale);
 
         if ($cacheName !== null) {
@@ -169,10 +166,14 @@ class TranslationEntityRepository extends TranslationRepository
         return $translatedQuery->getSingleScalarResult();
     }
 
-    protected function getTranslatedQuery(QueryBuilder $queryBuilder, ?string $locale = null): Query
+    /**
+     * @return Query<int, TranslationEntity>
+     */
+    private function getTranslatedQuery(QueryBuilder $queryBuilder, ?string $locale = null): Query
     {
         $locale = $locale ?? $this->defaultLocale;
 
+        /** @var Query<int, TranslationEntity> $query */
         $query = $queryBuilder->getQuery();
 
         $query->setHint(

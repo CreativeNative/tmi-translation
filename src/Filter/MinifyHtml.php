@@ -5,9 +5,9 @@ namespace TmiTranslation\Filter;
 use Laminas\Filter\FilterInterface;
 use voku\helper\HtmlMin;
 
-class MinifyHtml implements FilterInterface
+final class MinifyHtml implements FilterInterface
 {
-    public function filter($value)
+    public function filter(mixed $value): string
     {
         $htmlMin = new HtmlMin();
         $htmlMin->doRemoveOmittedQuotes(false);

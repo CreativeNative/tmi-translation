@@ -16,7 +16,7 @@ use TmiTranslation\Enum\TranslationCategoryInterface;
 class TranslationRepository extends EntityRepository
 {
     /**
-     * @return array<array-key, object>
+     * @return list<TranslationEntity>
      */
     public function findAll(): array
     {
@@ -36,7 +36,7 @@ class TranslationRepository extends EntityRepository
      *
      * @throws NonUniqueResultException
      */
-    public function findById(int $id): ?TranslationEntity
+    public function findById(int $id): TranslationEntity|null
     {
         $queryBuilder = $this->getEntityManager()->createQueryBuilder();
 

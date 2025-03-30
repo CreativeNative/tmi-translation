@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace TmiTranslation\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use InvalidArgumentException;
+use TmiTranslation\Repository\TranslationRepository;
 
 /**
- * @ORM\Entity(repositoryClass="TmiTranslation\Repository\TranslationRepository")
+ * @ORM\Entity(repositoryClass=TranslationRepository::class)
  * @ORM\Table(
  *     name="translation",
  *     options={
@@ -24,24 +26,37 @@ class TranslationEntity
      * @ORM\GeneratedValue(strategy="AUTO")
      * @ORM\Column(type="integer")
      */
-    private ?int $id = null;
+    private int|null $id = null;
 
     /** @ORM\Column(type="string", name="translation_key", length=150, unique=true) */
-    private string $translationKey = '';
+    private string $translationKey;
 
     /** @ORM\Column(type="text") */
-    private string $german = '';
+    private string $german;
 
     /** @ORM\Column(type="text") */
-    private string $english = '';
+    private string $english;
 
     /** @ORM\Column(type="text") */
-    private string $italian = '';
+    private string $italian;
+
+    /** @ORM\Column(type="string", length=50) */
+    private string $domain;
 
     /** @ORM\Column(type="smallint", options={"default":0}) */
-    private int $category = 0;
+    private int $category;
 
-    public function getId(): ?int
+    public function __construct()
+    {
+        $this->translationKey = '';
+        $this->german = '';
+        $this->english = '';
+        $this->italian = '';
+        $this->domain = '';
+        $this->category = 0;
+    }
+
+    public function getId(): int|null
     {
         return $this->id;
     }
@@ -51,9 +66,13 @@ class TranslationEntity
         return $this->translationKey;
     }
 
-    public function setTranslationKey(string $translationKey): void
+    public function setTranslationKey(string $translationKey): self
     {
+        if (empty($translationKey)) {
+            throw new InvalidArgumentException('Translation key cannot be empty.');
+        }
         $this->translationKey = $translationKey;
+        return $this;
     }
 
     public function getGerman(): string
@@ -61,9 +80,10 @@ class TranslationEntity
         return $this->german;
     }
 
-    public function setGerman(string $german): void
+    public function setGerman(string $german): self
     {
         $this->german = $german;
+        return $this;
     }
 
     public function getEnglish(): string
@@ -71,9 +91,10 @@ class TranslationEntity
         return $this->english;
     }
 
-    public function setEnglish(string $english): void
+    public function setEnglish(string $english): self
     {
         $this->english = $english;
+        return $this;
     }
 
     public function getItalian(): string
@@ -81,9 +102,21 @@ class TranslationEntity
         return $this->italian;
     }
 
-    public function setItalian(string $italian): void
+    public function setItalian(string $italian): self
     {
         $this->italian = $italian;
+        return $this;
+    }
+
+    public function getDomain(): string
+    {
+        return $this->domain;
+    }
+
+    public function setDomain(string $domain): self
+    {
+        $this->domain = $domain;
+        return $this;
     }
 
     public function getCategory(): int
@@ -91,8 +124,9 @@ class TranslationEntity
         return $this->category;
     }
 
-    public function setCategory(int $category): void
+    public function setCategory(int $category): self
     {
         $this->category = $category;
+        return $this;
     }
 }

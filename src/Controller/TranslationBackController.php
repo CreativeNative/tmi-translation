@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace TmiTranslation\Controller;
 
 use Doctrine\ORM\EntityManager;
+use Doctrine\ORM\Exception\NotSupported;
 use Doctrine\ORM\Exception\ORMException;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
@@ -41,9 +42,12 @@ class TranslationBackController extends AbstractActionController
         $this->translator      = $translator;
     }
 
+    /**
+     * @throws NotSupported
+     */
     public function indexAction(): ViewModel
     {
-        /** @var TranslationRepository $repository */
+        /** @var TranslationRepository<TranslationEntity> $repository */
         $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findAll();
@@ -177,9 +181,7 @@ class TranslationBackController extends AbstractActionController
                 ],
             ]);
 
-            if ($form->getInputFilter() !== null) {
-                $form->getInputFilter()->get('translationKey')->getValidatorChain()->attach($validator);
-            }
+            $form->getInputFilter()->get('translationKey')->getValidatorChain()->attach($validator);
 
             if ($form->isValid()) {
                 /** @var TranslationEntity $validatedEntity */
@@ -199,10 +201,7 @@ class TranslationBackController extends AbstractActionController
             ];
         }
 
-        return new ViewModel([
-            'form'    => $form,
-            'message' => $message,
-        ]);
+        return new ViewModel(compact('form', 'message'));
     }
 
     /**
@@ -218,7 +217,7 @@ class TranslationBackController extends AbstractActionController
             return $this->redirect()->toRoute('translation');
         }
 
-        /** @var TranslationRepository $repository */
+        /** @var TranslationRepository<TranslationEntity> $repository */
         $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findById($id);
@@ -263,11 +262,7 @@ class TranslationBackController extends AbstractActionController
             }
         }
 
-        return new ViewModel([
-            'form'    => $form,
-            'entity'  => $entity,
-            'message' => $message,
-        ]);
+        return new ViewModel(compact('form', 'entity', 'message'));
     }
 
     /**
@@ -283,7 +278,7 @@ class TranslationBackController extends AbstractActionController
             return $this->redirect()->toRoute('translation');
         }
 
-        /** @var TranslationRepository $repository */
+        /** @var TranslationRepository<TranslationEntity> $repository */
         $repository = $this->entityManager->getRepository(TranslationEntity::class);
 
         $entity = $repository->findById($id);
@@ -309,6 +304,6 @@ class TranslationBackController extends AbstractActionController
             }
         }
 
-        return new ViewModel(['entity' => $entity]);
+        return new ViewModel(compact('entity'));
     }
 }
