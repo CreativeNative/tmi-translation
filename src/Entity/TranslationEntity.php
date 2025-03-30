@@ -40,7 +40,7 @@ class TranslationEntity
     /** @ORM\Column(type="text") */
     private string $italian;
 
-    /** @ORM\Column(type="string", length=50) */
+    /** @ORM\Column(type="string", length=50, options={"default": "default"}) */
     private string $domain;
 
     /** @ORM\Column(type="smallint", options={"default":0}) */
@@ -52,7 +52,7 @@ class TranslationEntity
         $this->german         = '';
         $this->english        = '';
         $this->italian        = '';
-        $this->domain         = '';
+        $this->domain         = 'default';
         $this->category       = 0;
     }
 
