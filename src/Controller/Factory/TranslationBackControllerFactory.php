@@ -20,7 +20,7 @@ class TranslationBackControllerFactory implements FactoryInterface
      * @throws ContainerExceptionInterface
      * @throws NotFoundExceptionInterface
      */
-    public function __invoke(ContainerInterface $container, $requestedName, ?array $options = null): Controller
+    public function __invoke(ContainerInterface $container, $requestedName, array|null $options = null): Controller
     {
         /** @var EntityManager $entityManager */
         $entityManager = $container->get(EntityManager::class);

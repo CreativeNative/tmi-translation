@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace TmiTranslation\Filter;
 
 use Laminas\Filter\FilterInterface;

@@ -201,7 +201,7 @@ class TranslationBackController extends AbstractActionController
             ];
         }
 
-        return new ViewModel(compact('form', 'message'));
+        return new ViewModel(['form' => $form, 'message' => $message]);
     }
 
     /**
@@ -262,7 +262,7 @@ class TranslationBackController extends AbstractActionController
             }
         }
 
-        return new ViewModel(compact('form', 'entity', 'message'));
+        return new ViewModel(['form' => $form, 'entity' => $entity, 'message' => $message]);
     }
 
     /**
@@ -303,7 +303,6 @@ class TranslationBackController extends AbstractActionController
                 );
             }
         }
-
-        return new ViewModel(compact('entity'));
+        return new ViewModel(['entity' => $entity]);
     }
 }

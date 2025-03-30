@@ -49,11 +49,11 @@ class TranslationEntity
     public function __construct()
     {
         $this->translationKey = '';
-        $this->german = '';
-        $this->english = '';
-        $this->italian = '';
-        $this->domain = '';
-        $this->category = 0;
+        $this->german         = '';
+        $this->english        = '';
+        $this->italian        = '';
+        $this->domain         = '';
+        $this->category       = 0;
     }
 
     public function getId(): int|null

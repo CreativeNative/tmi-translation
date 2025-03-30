@@ -130,6 +130,7 @@ final class TranslationEntityRepository extends TranslationRepository
 
     /**
      * Returns translated scalar result for given locale
+     *
      * @return array<int, mixed>
      */
     public function getScalarResult(
@@ -169,7 +170,7 @@ final class TranslationEntityRepository extends TranslationRepository
     /**
      * @return Query<int, TranslationEntity>
      */
-    private function getTranslatedQuery(QueryBuilder $queryBuilder, ?string $locale = null): Query
+    private function getTranslatedQuery(QueryBuilder $queryBuilder, string|null $locale = null): Query
     {
         $locale = $locale ?? $this->defaultLocale;
 

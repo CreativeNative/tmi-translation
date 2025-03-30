@@ -15,6 +15,8 @@ use TmiTranslation\Entity\TranslationEntity;
 use TmiTranslation\Enum\TranslationCategory;
 use TmiTranslation\Filter\MinifyHtml;
 
+use function array_map;
+
 class TranslationForm extends Form
 {
     public function __construct(EntityManager $entityManager)
