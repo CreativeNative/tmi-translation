@@ -74,19 +74,34 @@ class TranslationBackController extends AbstractActionController
             $writer->setUseBracketArraySyntax(true);
 
             if (isset($data['translation']) && $data['translation'] === 'all') {
-                $german  = [];
-                $english = [];
-                $italian = [];
+                $translationsByDomain = [];
+
                 foreach ($entity as $translation) {
-                    /** @var TranslationEntity $translation */
-                    $german[$translation->getDomain() . '.' . $translation->getTranslationKey()]  = $translation->getGerman();
-                    $english[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getEnglish();
-                    $italian[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getItalian();
+                    $key = $translation->getTranslationKey();
+                    $german = $translation->getGerman();
+                    $english = $translation->getEnglish();
+                    $italian = $translation->getItalian();
+                    $domain = $translation->getDomain(); // Domain aus dem Entity abrufen
+
+                    // Übersetzungen nach Domain gruppieren
+                    if (!isset($translationsByDomain[$domain])) {
+                        $translationsByDomain[$domain] = [
+                            'de' => [],
+                            'en' => [],
+                            'it' => [],
+                        ];
+                    }
+
+                    $translationsByDomain[$domain]['de'][$key] = $german;
+                    $translationsByDomain[$domain]['en'][$key] = $english;
+                    $translationsByDomain[$domain]['it'][$key] = $italian;
                 }
 
-                $writer->toFile(getcwd() . '/data/language/de_DE.php', $german);
-                $writer->toFile(getcwd() . '/data/language/en_US.php', $english);
-                $writer->toFile(getcwd() . '/data/language/it_IT.php', $italian);
+                foreach ($translationsByDomain as $domain => $translations) {
+                    $writer->toFile(getcwd() . '/data/language/de_DE_' . $domain . '.php', $translations['de']);
+                    $writer->toFile(getcwd() . '/data/language/en_US_' . $domain . '.php', $translations['en']);
+                    $writer->toFile(getcwd() . '/data/language/it_IT_' . $domain . '.php', $translations['it']);
+                }
 
                 $messages[] = [
                     'message' => '<img class="flag" src="/resources/application/img/germany.png" width="16" 
@@ -95,55 +110,6 @@ class TranslationBackController extends AbstractActionController
                                     height="16" alt="english">&nbsp;<img class="flag" 
                                     src="/resources/application/img/italy.png" width="16" 
                                     height="16" alt="italian">&nbsp;Alle Übersetzungen wurden erstellt!',
-                    'class'   => 'alert-success',
-                ];
-            }
-
-            // Wiederholen Sie den Vorgang für die einzelnen Sprachen
-            if (isset($data['translation']) && $data['translation'] === 'german') {
-                $german = [];
-                foreach ($entity as $translation) {
-                    /** @var TranslationEntity $translation */
-                    $german[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getGerman();
-                }
-
-                $writer->toFile(getcwd() . '/data/language/de_DE.php', $german);
-
-                $messages[] = [
-                    'message' => '<img class="flag" src="/resources/application/img/germany.png" width="16" 
-                                   height="16" alt="german"> Deutsche Übersetzung wurde erstellt!',
-                    'class'   => 'alert-success',
-                ];
-            }
-
-            if (isset($data['translation']) && $data['translation'] === 'english') {
-                $english = [];
-                foreach ($entity as $translation) {
-                    /** @var TranslationEntity $translation */
-                    $english[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getEnglish();
-                }
-
-                $writer->toFile(getcwd() . '/data/language/en_US.php', $english);
-
-                $messages[] = [
-                    'message' => '<img class="flag" src="/resources/application/img/usa.png" width="16" 
-                                   height="16" alt="english"> Englische Übersetzung wurde erstellt!',
-                    'class'   => 'alert-success',
-                ];
-            }
-
-            if (isset($data['translation']) && $data['translation'] === 'italian') {
-                $italian = [];
-                foreach ($entity as $translation) {
-                    /** @var TranslationEntity $translation */
-                    $italian[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getItalian();
-                }
-
-                $writer->toFile(getcwd() . '/data/language/it_IT.php', $italian);
-
-                $messages[] = [
-                    'message' => '<img class="flag" src="/resources/application/img/italy.png"  width="16"
-                                   height="16" alt="italian"> Italienische Übersetzung wurde erstellt!',
                     'class'   => 'alert-success',
                 ];
             }
