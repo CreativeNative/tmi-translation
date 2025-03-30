@@ -1,7 +1,7 @@
 <?php
-/** @var $entity TmiTranslation\Entity\TranslationEntity */
+/** @var TmiTranslation\Entity\TranslationEntity $entity  */
 $entity = $this->entity;
-/** @var $form Laminas\Form\Form */
+/** @var Laminas\Form\Form $form */
 $form->prepare();
 $form->setAttribute('action', $this->url('translation/edit', ['id' => $entity->getId()]));
 echo $this->form()->openTag($form);
@@ -33,11 +33,18 @@ echo $this->form()->openTag($form);
             }
             ?>
         </div>
-        <div class="col-12">
+        <div class="col-6">
             <?php
             echo $this->formLabel($form->get('category'));
             echo $this->formSelect($form->get('category'));
             echo $this->formElementErrors($form->get('category'));
+            ?>
+        </div>
+        <div class="col-6">
+            <?php
+            echo $this->formLabel($form->get('domain'));
+            echo $this->formElement($form->get('domain'));
+            echo $this->formElementErrors($form->get('domain'));
             ?>
         </div>
         <div class="col-12">

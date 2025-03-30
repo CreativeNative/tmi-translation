@@ -44,6 +44,36 @@ class TranslationForm extends Form
 
         $this->add(
             [
+                'type'       => Element\Select::class,
+                'name'       => 'category',
+                'options'    => [
+                    'label'         => 'Category',
+                    'value_options' => array_map(
+                        static fn($category) => $category,
+                        TranslationCategory::getCategories()
+                    ),
+                ],
+                'attributes' => [
+                    'class' => 'form-control',
+                ],
+            ]
+        );
+
+        $this->add(
+            [
+                'type'       => Element\Text::class,
+                'name'       => 'domain',
+                'options'    => [
+                    'label' => 'Text Domain',
+                ],
+                'attributes' => [
+                    'class' => 'form-control',
+                ],
+            ]
+        );
+
+        $this->add(
+            [
                 'type'       => Element\Text::class,
                 'name'       => 'translationKey',
                 'options'    => [
@@ -99,36 +129,6 @@ class TranslationForm extends Form
 
         $this->add(
             [
-                'type'       => Element\Text::class,
-                'name'       => 'domain',
-                'options'    => [
-                    'label' => 'Text Domain',
-                ],
-                'attributes' => [
-                    'class' => 'form-control',
-                ],
-            ]
-        );
-
-        $this->add(
-            [
-                'type'       => Element\Select::class,
-                'name'       => 'category',
-                'options'    => [
-                    'label'         => 'Category',
-                    'value_options' => array_map(
-                        static fn($category) => $category,
-                        TranslationCategory::getCategories()
-                    ),
-                ],
-                'attributes' => [
-                    'class' => 'form-control',
-                ],
-            ]
-        );
-
-        $this->add(
-            [
                 'type'    => Element\Csrf::class,
                 'name'    => 'csrf',
                 'options' => [
@@ -158,6 +158,46 @@ class TranslationForm extends Form
     private function addInputFilter(): void
     {
         $inputFilter = new InputFilter();
+
+        $inputFilter->add(
+            [
+                'name'       => 'category',
+                'required'   => true,
+                'filters'    => [
+                    ['name' => Filter\Digits::class],
+                ],
+                'validators' => [
+                    ['name' => Validator\Digits::class],
+                ],
+            ]
+        );
+
+        $inputFilter->add(
+            [
+                'name'       => 'domain',
+                'filters'    => [
+                    ['name' => Filter\StringTrim::class],
+                    ['name' => Filter\StripTags::class],
+                    ['name' => Filter\StripNewlines::class],
+                    ['name' => Filter\StringToLower::class],
+                ],
+                'validators' => [
+                    [
+                        'name'    => Validator\Regex::class,
+                        'options' => [
+                            'pattern' => '/^[a-z]+$/',
+                        ],
+                    ],
+                    [
+                        'name'    => Validator\StringLength::class,
+                        'options' => [
+                            'min' => 2,
+                            'max' => 50,
+                        ],
+                    ],
+                ],
+            ]
+        );
 
         $inputFilter->add(
             [
@@ -215,46 +255,6 @@ class TranslationForm extends Form
                 ],
                 'validators' => [
                     ['name' => Validator\NotEmpty::class],
-                ],
-            ]
-        );
-
-        $inputFilter->add(
-            [
-                'name'       => 'domain',
-                'filters'    => [
-                    ['name' => Filter\StringTrim::class],
-                    ['name' => Filter\StripTags::class],
-                    ['name' => Filter\StripNewlines::class],
-                    ['name' => Filter\StringToLower::class],
-                ],
-                'validators' => [
-                    [
-                        'name'    => Validator\Regex::class,
-                        'options' => [
-                            'pattern' => '/^[a-z]+$/',
-                        ],
-                    ],
-                    [
-                        'name'    => Validator\StringLength::class,
-                        'options' => [
-                            'min' => 2,
-                            'max' => 50,
-                        ],
-                    ],
-                ],
-            ]
-        );
-
-        $inputFilter->add(
-            [
-                'name'       => 'category',
-                'required'   => true,
-                'filters'    => [
-                    ['name' => Filter\Digits::class],
-                ],
-                'validators' => [
-                    ['name' => Validator\Digits::class],
                 ],
             ]
         );
