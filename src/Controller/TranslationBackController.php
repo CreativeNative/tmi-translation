@@ -58,10 +58,10 @@ class TranslationBackController extends AbstractActionController
         $request = $this->getRequest();
 
         $params = $request->getQuery();
-        if (! empty($params['delete'])) {
+        if (!empty($params['delete'])) {
             $messages[] = [
                 'message' => sprintf($this->translator->translate(
-                    "Record with ID %s was succesfully deleted."
+                    "Record with ID %s was successfully deleted."
                 ), $params['delete']),
                 'class'   => 'alert-danger',
             ];
@@ -79,9 +79,9 @@ class TranslationBackController extends AbstractActionController
                 $italian = [];
                 foreach ($entity as $translation) {
                     /** @var TranslationEntity $translation */
-                    $german[$translation->getTranslationKey()]  = $translation->getGerman();
-                    $english[$translation->getTranslationKey()] = $translation->getEnglish();
-                    $italian[$translation->getTranslationKey()] = $translation->getItalian();
+                    $german[$translation->getDomain() . '.' . $translation->getTranslationKey()]  = $translation->getGerman();
+                    $english[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getEnglish();
+                    $italian[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getItalian();
                 }
 
                 $writer->toFile(getcwd() . '/data/language/de_DE.php', $german);
@@ -90,27 +90,28 @@ class TranslationBackController extends AbstractActionController
 
                 $messages[] = [
                     'message' => '<img class="flag" src="/resources/application/img/germany.png" width="16" 
-                                        height="16" alt="german">&nbsp;<img class="flag" 
-                                        src="/resources/application/img/usa.png" width="16" 
-                                        height="16" alt="english">&nbsp;<img class="flag" 
-                                        src="/resources/application/img/italy.png" width="16" 
-                                        height="16" alt="italian">&nbsp;Alle Übersetzungen wurde erstellt!',
+                                    height="16" alt="german">&nbsp;<img class="flag" 
+                                    src="/resources/application/img/usa.png" width="16" 
+                                    height="16" alt="english">&nbsp;<img class="flag" 
+                                    src="/resources/application/img/italy.png" width="16" 
+                                    height="16" alt="italian">&nbsp;Alle Übersetzungen wurden erstellt!',
                     'class'   => 'alert-success',
                 ];
             }
 
+            // Wiederholen Sie den Vorgang für die einzelnen Sprachen
             if (isset($data['translation']) && $data['translation'] === 'german') {
                 $german = [];
                 foreach ($entity as $translation) {
                     /** @var TranslationEntity $translation */
-                    $german[$translation->getTranslationKey()] = $translation->getGerman();
+                    $german[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getGerman();
                 }
 
                 $writer->toFile(getcwd() . '/data/language/de_DE.php', $german);
 
                 $messages[] = [
                     'message' => '<img class="flag" src="/resources/application/img/germany.png" width="16" 
-                                       height="16" alt="german"> Deutsche Übersetzung wurde erstellt!',
+                                   height="16" alt="german"> Deutsche Übersetzung wurde erstellt!',
                     'class'   => 'alert-success',
                 ];
             }
@@ -119,14 +120,14 @@ class TranslationBackController extends AbstractActionController
                 $english = [];
                 foreach ($entity as $translation) {
                     /** @var TranslationEntity $translation */
-                    $english[$translation->getTranslationKey()] = $translation->getEnglish();
+                    $english[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getEnglish();
                 }
 
                 $writer->toFile(getcwd() . '/data/language/en_US.php', $english);
 
                 $messages[] = [
                     'message' => '<img class="flag" src="/resources/application/img/usa.png" width="16" 
-                                       height="16" alt="english"> Englische Übersetzung wurde erstellt!',
+                                   height="16" alt="english"> Englische Übersetzung wurde erstellt!',
                     'class'   => 'alert-success',
                 ];
             }
@@ -135,14 +136,14 @@ class TranslationBackController extends AbstractActionController
                 $italian = [];
                 foreach ($entity as $translation) {
                     /** @var TranslationEntity $translation */
-                    $italian[$translation->getTranslationKey()] = $translation->getItalian();
+                    $italian[$translation->getDomain() . '.' . $translation->getTranslationKey()] = $translation->getItalian();
                 }
 
                 $writer->toFile(getcwd() . '/data/language/it_IT.php', $italian);
 
                 $messages[] = [
                     'message' => '<img class="flag" src="/resources/application/img/italy.png"  width="16"
-                                       height="16" alt="italian"> Italienische Übersetzung wurde erstellt!',
+                                   height="16" alt="italian"> Italienische Übersetzung wurde erstellt!',
                     'class'   => 'alert-success',
                 ];
             }
