@@ -68,6 +68,7 @@ class TranslationForm extends Form
                 ],
                 'attributes' => [
                     'class' => 'form-control',
+                    'value' => 'default',
                 ],
             ]
         );
